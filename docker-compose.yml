@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:16          # use pre-built PostgreSQL image
+    environment:                # set DB username, password, database name
+      POSTGRES_USER: garynlfd
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: japanese_note
+    ports:
+      - "5432:5432"             # expose port to your machine
+    volumes:
+      - pgdata:/var/lib/postgresql/data   # persist data across restarts
+
+  backend:
+    build: ./backend-java       # build from Dokcerfile
+    ports:
+      - "5001:5001"             # expose port to your machine
+    environment:                # pass DB connection info to Spring
+      DB_USER: garynlfd
+      DB_PASSWORD: 12345678
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/japanese_note
+    depends_on:
+      - db                      # start db before backend
+
+  frontend:                                               
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes: 
+  pgdata:                       # named volume for PostgreSQL data

@@ -1,0 +1,4 @@
+com/japanesenote/JapaneseNoteApplicationTests.class
+com/japanesenote/controller/NoteControllerTest.class
+com/japanesenote/controller/AuthControllerTest.class
+com/japanesenote/service/NoteServiceTest.class

@@ -1,0 +1,15 @@
+/Users/garynlfd/Desktop/japanese_note/backend-java/src/main/java/com/japanesenote/JapaneseNoteApplication.java
+/Users/garynlfd/Desktop/japanese_note/backend-java/src/main/java/com/japanesenote/config/SecurityConfig.java
+/Users/garynlfd/Desktop/japanese_note/backend-java/src/main/java/com/japanesenote/controller/AuthController.java
+/Users/garynlfd/Desktop/japanese_note/backend-java/src/main/java/com/japanesenote/controller/NoteController.java
+/Users/garynlfd/Desktop/japanese_note/backend-java/src/main/java/com/japanesenote/exception/GlobalExceptionHandler.java
+/Users/garynlfd/Desktop/japanese_note/backend-java/src/main/java/com/japanesenote/exception/NoteNotFoundException.java
+/Users/garynlfd/Desktop/japanese_note/backend-java/src/main/java/com/japanesenote/filter/JwtAuthFilter.java
+/Users/garynlfd/Desktop/japanese_note/backend-java/src/main/java/com/japanesenote/model/Note.java
+/Users/garynlfd/Desktop/japanese_note/backend-java/src/main/java/com/japanesenote/model/PagedResponse.java
+/Users/garynlfd/Desktop/japanese_note/backend-java/src/main/java/com/japanesenote/model/User.java
+/Users/garynlfd/Desktop/japanese_note/backend-java/src/main/java/com/japanesenote/repository/NoteRepository.java
+/Users/garynlfd/Desktop/japanese_note/backend-java/src/main/java/com/japanesenote/repository/UserRepository.java
+/Users/garynlfd/Desktop/japanese_note/backend-java/src/main/java/com/japanesenote/service/NoteService.java
+/Users/garynlfd/Desktop/japanese_note/backend-java/src/main/java/com/japanesenote/service/UserService.java
+/Users/garynlfd/Desktop/japanese_note/backend-java/src/main/java/com/japanesenote/util/JwtUtil.java

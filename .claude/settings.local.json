@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(ls -la /Users/garynlfd/Desktop/japanese_note/backend/.*)",
+      "Bash(java -version)",
+      "Bash(mvn -version)",
+      "Bash(grep -E \"\\\\.md$|ROADMAP|BLUEPRINT|PLAN|MILESTONE\")",
+      "Bash(mvn clean:*)",
+      "Bash(mvn dependency:tree)"
+    ]
+  }
+}
