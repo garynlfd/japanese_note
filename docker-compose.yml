@@ -21,7 +21,7 @@ services:
     depends_on:
       - db                      # start db before backend
 
-  frontend:                                               
+  frontend:
     build: ./frontend
     ports:
       - "3000:80"
