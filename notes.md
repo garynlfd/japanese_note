@@ -421,3 +421,56 @@ You (browser) → localhost:3000 → [3000:80] → nginx
 ```
 #### My own words
 - we need 3000:80 because we do something outside docker, and usually from frontend, so we use external port 3000 and nginx give to docker internal port 80, and call backend or db internally using backend:5001 and db:5432.
+
+---
+
+## M12 — Deployment
+
+### Cloud Platforms (PaaS)
+- **PaaS** (Platform as a Service) = cloud platforms like Render, Railway, Fly.io, Heroku that handle infrastructure so you focus on code.
+- You provide code + config → platform handles building, running, networking, and public URLs.
+- Render supports native runtimes for Node.js, Python, Ruby, Go, Rust, Elixir. Java requires Docker or manually setting build/start commands.
+
+### Web Service vs Static Site
+- **Web Service** = a running process (server) that receives requests, executes logic, queries DB. Uses CPU/memory even when idle.
+- **Static Site** = just files (HTML/CSS/JS) on a CDN. No process runs. Browser downloads files and runs the app client-side.
+- Backend → Web Service (needs to run Java, handle requests, talk to DB).
+- Frontend → Static Site (after `npm run build`, it's just files — no server needed).
+
+### CDN (Content Delivery Network)
+- Servers spread around the world that cache and serve static files.
+- Users download from the nearest server → faster load times.
+- Static sites on CDN never "spin down" — files are always ready to serve.
+
+### CORS (Cross-Origin Resource Sharing)
+- Browser security rule: by default, JavaScript on origin A **cannot read responses** from origin B.
+- CORS is the mechanism that **opens** that door — the backend tells the browser "I allow this origin to read my responses."
+- Configured on the backend via `CorsConfiguration`: allowed origins, methods, headers, credentials.
+- `setAllowCredentials(true)` = allow the browser to send cookies and Authorization headers in cross-origin requests.
+- Not needed when frontend and backend share the same origin (e.g., nginx proxy in Docker Compose).
+- Needed when frontend and backend are on different domains (e.g., Render deployment).
+
+### Nginx's Role (Docker Compose vs Render)
+- **Nginx** = a web server. It acts as a middleman between the browser and the backend.
+- In Docker Compose it had two jobs:
+  1. Serve React build files to the browser.
+  2. Reverse proxy — forward `/api/` requests to the backend (`http://backend:5001`).
+- On Render, nginx is not needed:
+  1. CDN serves the files.
+  2. Browser calls the backend directly (CORS allows it).
+
+### Environment Variables in Deployment
+- `${PORT:5001}` — Render assigns a dynamic port via `PORT` env var. Default to 5001 locally.
+- `REACT_APP_` prefix — CRA (Create React App) only exposes env vars with this prefix to frontend code. Safety measure so secrets like `DB_PASSWORD` don't leak into browser-readable JavaScript.
+- `REACT_APP_*` vars are baked in at **build time**, not runtime. Changing them requires a rebuild.
+- `CORS_ALLOWED_ORIGIN` — read by Spring Boot at startup to configure which frontend origin is allowed.
+
+### CI/CD via Webhook
+- When you connect a GitHub repo to Render, a **webhook** is set up.
+- Every push to the watched branch (e.g., `main`) triggers an automatic deploy.
+- This is a simple form of **CI/CD** (Continuous Integration / Continuous Deployment).
+
+### Free Tier Behavior
+- Backend (Web Service) spins down after 15 min of inactivity — the JVM process is stopped. First request after idle takes ~30-60s to cold-start.
+- Frontend (Static Site) never spins down — files on CDN cost almost nothing to serve.
+- Managed PostgreSQL on free tier is deleted after 90 days — the entire DB instance is removed, not just the data. To recover: create a new free PostgreSQL, update env vars, and Flyway will recreate the tables on first startup (but old data is lost).
